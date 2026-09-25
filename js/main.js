@@ -28,8 +28,14 @@ function renderizarProductos(lista) {
     });
 }
 
-renderizarProductos(productos);
+function actualizarVista() {
+    const textoFiltro = inputBusqueda.value.toLowerCase().trim();
+    const productosFiltrados = productos.filter((producto) => producto.nombre.toLowerCase().includes(textoFiltro)
+    );
+    renderizarProductos(productosFiltrados);
+}
 
+actualizarVista();
 
 btnAgregar.addEventListener("click", () => {
     const nombre = inputNombre.value.trim();
@@ -51,7 +57,7 @@ btnAgregar.addEventListener("click", () => {
 
     productos.push(nuevoProducto);
 
-    renderizarProductos(productos);
+    actualizarVista();
 
     inputNombre.value = "";
     inputPrecio.value = "";
@@ -59,13 +65,10 @@ btnAgregar.addEventListener("click", () => {
     feedback.className = "mensaje-exito";
 });
 
-inputBusqueda.addEventListener("input", () => {
-    const busqueda = inputBusqueda.value.toLowerCase().trim();
 
-    const productosFiltrados = productos.filter((producto) =>
-        producto.nombre.toLowerCase().includes(busqueda));
 
-    renderizarProductos(productosFiltrados);
+inputBusqueda.addEventListener("keyup", (e) => {
+   actualizarVista();
 });
 
 contenedorProductos.addEventListener("click", (e) => {
@@ -82,6 +85,6 @@ contenedorProductos.addEventListener("click", (e) => {
         feedback.textContent = "Producto eliminado con éxito.";
         feedback.className = "mensaje-alerta";
 
-        renderizarProductos(productos);
+        actualizarVista();
     }
 });
